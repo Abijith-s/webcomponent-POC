@@ -1,17 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import './index.css'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux';
+import reactToWebComponent from 'react-to-webcomponent'
+import App from './App'
+import StoreService from './services/storeSerices';
+const store = StoreService.configureStore();
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const index = () => {
+  return (
+    <div className='container'>
+     <Provider store={store}>
+      <App />
+    </Provider>
+    </div>
+  )
+}
+
+customElements.define('my-com', reactToWebComponent(index, React, ReactDOM));
+
+
+ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
